@@ -17,7 +17,14 @@ class Concater:
             if len(split) < 2:
                 continue
             self.dictionary.update({split[0]:split[1]})
-        print(self.dictionary)
+            
+    def add_to_dictionary(self, word):
+        print(word + " not found in dictionary. Enter pronunciation:\n")
+        pronunciation = input()
+        if pronunciation == '': # TODO: more validation
+            return False
+        self.dictionary.update({word:pronunciation})
+        return True
             
     def get_sound(self, phone):
         """Get the sound file for a letter (/single char code)"""
@@ -28,8 +35,9 @@ class Concater:
         """Return new audio segment with sound version of each letter in given word"""
         song = []
         if word not in self.dictionary:
-            print("Not in dictionary")
-            return sum(song)
+            if not self.add_to_dictionary(word):
+                print("Missing dictionary entry. Could not finish.")
+                return sum(song)
         pronunciation = self.dictionary[word]
         for phone in pronunciation.split():
             if (phone == ''):
