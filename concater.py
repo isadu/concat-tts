@@ -1,7 +1,6 @@
 from pydub import AudioSegment
+import re
 # lives inside libav.../win64/usr for import/path problems
-# non-IPA-behaving characters:
-# 1=ai 2=ei 3=schwa 4=I 5=wedge 8=sh 9=th c=tsh j=dzh y=j
 
 quarter_rest = AudioSegment.silent(duration=150)
 half_rest = AudioSegment.silent(duration=300)
@@ -13,27 +12,32 @@ class Concater:
         self.dictionary = {}
         self.dictionary.update({'take':'test'})
         for line in dict_text:
+            if line.startswith(';'):
+                continue
             split = line.split('\t')
             if len(split) < 2:
                 continue
             self.dictionary.update({split[0]:split[1]})
             
     def add_to_dictionary(self, word):
+        """Add an unknown word to the dictionary for this session"""
         print(word + " not found in dictionary. Enter pronunciation:\n")
         pronunciation = input()
         if pronunciation == '': # TODO: more validation
             return False
-        self.dictionary.update({word:pronunciation})
+        self.dictionary.update({word.upper():pronunciation})
         return True
             
     def get_sound(self, phone):
         """Get the sound file for a letter (/single char code)"""
+        phone = re.sub(r'[0-9]', "", phone)
         filename = "recARPAs/" + phone + ".wav"
         return AudioSegment.from_file(filename, format="wav")
 
     def word2song(self, word):
         """Return new audio segment with sound version of each letter in given word"""
         song = []
+        word = word.upper()
         if word not in self.dictionary:
             if not self.add_to_dictionary(word):
                 print("Missing dictionary entry. Could not finish.")
@@ -43,7 +47,7 @@ class Concater:
             if (phone == ''):
                 song.append(quarter_rest)
                 continue
-            if (not phone.isalpha()):
+            if (not phone.isalnum()):
                 continue
             song.append(self.get_sound(phone))
         song.append(half_rest)
@@ -51,7 +55,7 @@ class Concater:
 
 def main():
     """Create and save sound file for input"""
-    concater = Concater("dict.txt")
+    concater = Concater("cmudict2.txt")
     inp = input()
     while (inp != ''):
         sentence = []
