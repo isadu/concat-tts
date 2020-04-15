@@ -2,8 +2,9 @@ from pydub import AudioSegment
 import re
 # lives inside libav.../win64/usr for import/path problems
 
-quarter_rest = AudioSegment.silent(duration=150)
-half_rest = AudioSegment.silent(duration=300)
+quarter_rest = AudioSegment.silent(duration=0)
+half_rest = AudioSegment.silent(duration=150)
+whole_rest = AudioSegment.silent(duration=1000)
 
 class Concater:
     def __init__(self, dict_file):
@@ -29,8 +30,7 @@ class Concater:
         return True
             
     def get_sound(self, phone):
-        """Get the sound file for a letter (/single char code)"""
-        phone = re.sub(r'[0-9]', "", phone)
+        """Get the sound file for a phone"""
         filename = "recARPAs/" + phone + ".wav"
         return AudioSegment.from_file(filename, format="wav")
 
@@ -49,7 +49,7 @@ class Concater:
                 continue
             if (not phone.isalnum()):
                 continue
-            song.append(self.get_sound(phone))
+            song.append(self.get_sound(phone))   
         song.append(half_rest)
         return sum(song)
 
@@ -63,7 +63,8 @@ def main():
         for word in inp.split():
             song = concater.word2song(word)
             sentence.append(song)
-        sum(sentence).export("songfor" + inp + ".mp3", format="mp3")
+        song.append(whole_rest)
+        sum(sentence).export("concated01 " + inp + ".mp3", format="mp3")
         inp = input()
 
 if __name__ == '__main__':

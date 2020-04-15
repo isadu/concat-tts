@@ -7,7 +7,7 @@ Simple concatenative text-to-speech in Python
 [x] Stage 2: word to ARPAbet to sequence of ARPAbet sounds
 	- pronouncing dictionary lookup
 	- switch to allow one-or-more-char codes
-[ ] Stage 3: ...with stress
+[x] Stage 3: ...with stress
 	- CMU pronouncing dictionary lookup
 [ ] Stage 4: ...with phonetic detail
 [ ] Stage 5: words to ARPAbet with cross-word-boundary rules applied to sounds with phonetic detail
