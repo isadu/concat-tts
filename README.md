@@ -9,10 +9,26 @@ Simple concatenative text-to-speech in Python
 	- switch to allow one-or-more-char codes
 [x] Stage 3: ...with stress
 	- CMU pronouncing dictionary lookup
-[ ] Stage 4: ...with phonetic detail
-[ ] Stage 5: words to ARPAbet with cross-word-boundary rules applied to sounds with phonetic detail
-[ ] Stage 6: context-aware recordings/segment recordings
+[ ] Stage 4: common clusters
+	- technical prereq for 4-7: neighbor-aware processing
+	- phase 1 - affricate for ts
+	- phase 2 - s[ptkmnl], s[ptk]r, [ptkbdgfTHSH]r, spl, [pkbgf]l, [stk]w
+	- phase 3 - sf, dw, skw, sfr, codas
+[ ] Stage 5: ...with phonetic detail
+	- dark/clear L
+	- syllabics
+	- aspiration
+	- rhotacization
+	- flapping
+	- unreleased stops
+[ ] Stage 6: cross-word-boundary rules applied
+[ ] Stage 7: context-aware recordings/segment recordings
+	- ideally hit side goal first
+	- (ata aba the a's are all different, or a[t] + ta)
+[ ] Stage 8: questions and exclamations 
+	- manipulate pitch?
 
 Side goals:
 [ ] Automate more of the sound file process
+	- Praat script?
 
