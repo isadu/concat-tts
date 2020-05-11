@@ -1,5 +1,6 @@
 from pydub import AudioSegment
 import re
+from pathlib import Path
 # lives inside libav.../win64/usr for import/path problems
 
 quarter_rest = AudioSegment.silent(duration=0)
@@ -28,11 +29,15 @@ class Concater:
             return False
         self.dictionary.update({word.upper():pronunciation})
         return True
+
+    def is_sound(self, phone):
+        file = Path("recARPAs/" + phone + ".wav")
+        return file.is_file()            
             
     def get_sound(self, phone):
         """Get the sound file for a phone"""
         filename = "recARPAs/" + phone + ".wav"
-        return AudioSegment.from_file(filename, format="wav")
+        return AudioSegment.from_file(filename, format="wav") # TODO handle failure
 
     def word2song(self, word):
         """Return new audio segment with sound version of each letter in given word"""
@@ -42,14 +47,27 @@ class Concater:
             if not self.add_to_dictionary(word):
                 print("Missing dictionary entry. Could not finish.")
                 return sum(song)
-        pronunciation = self.dictionary[word]
-        for phone in pronunciation.split():
-            if (phone == ''):
+        pronunciation = self.dictionary[word].split()
+        print(pronunciation)
+        index = 0
+        while index < len(pronunciation):
+            phones = ''
+            phones += pronunciation[index]
+            if phones == '':
+                print("rest")
                 song.append(quarter_rest)
                 continue
-            if (not phone.isalnum()):
+            if not self.is_sound(phones):
+                print("not sound")
                 continue
-            song.append(self.get_sound(phone))   
+            while index+1 < len(pronunciation) and \
+                  self.is_sound(phones + pronunciation[index+1]):
+                print("adding")
+                phones += pronunciation[index+1]
+                index += 1
+            print(phones)
+            song.append(self.get_sound(phones))
+            index += 1
         song.append(half_rest)
         return sum(song)
 

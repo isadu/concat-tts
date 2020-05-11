@@ -10,7 +10,8 @@ Simple concatenative text-to-speech in Python
 [x] Stage 3: ...with stress
 	- CMU pronouncing dictionary lookup
 [ ] Stage 4: common clusters
-	- technical prereq for 4-7: neighbor-aware processing
+	- [x] technical prereq for 4-7: neighbor-aware processing
+	- [x] technical prereq part 2: know what sounds are available
 	- phase 1 - affricate for ts
 	- phase 2 - s[ptkmnl], s[ptk]r, [ptkbdgfTHSH]r, spl, [pkbgf]l, [stk]w
 	- phase 3 - sf, dw, skw, sfr, codas
