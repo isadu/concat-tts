@@ -3,9 +3,15 @@ import re
 from pathlib import Path
 # lives inside libav.../win64/usr for import/path problems
 
+"""Pauses"""
 quarter_rest = AudioSegment.silent(duration=0)
 half_rest = AudioSegment.silent(duration=150)
 whole_rest = AudioSegment.silent(duration=1000)
+
+"""Natural classes"""
+liquids = {'L', 'R'}
+nasals = {'M', 'N', 'NG'}
+voiceless_stops = {'P', 'T', 'K'}
 
 class Concater:
     def __init__(self, dict_file):
@@ -33,6 +39,9 @@ class Concater:
     def is_sound(self, phone):
         file = Path("recARPAs/" + phone + ".wav")
         return file.is_file()            
+
+    def is_vowel(self, phone):
+        return not phone.isalpha()
             
     def get_sound(self, phone):
         """Get the sound file for a phone"""
@@ -82,7 +91,7 @@ def main():
             song = concater.word2song(word)
             sentence.append(song)
         song.append(whole_rest)
-        sum(sentence).export("concated01 " + inp + ".mp3", format="mp3")
+        sum(sentence).export("concated02 " + inp + ".mp3", format="mp3")
         inp = input()
 
 if __name__ == '__main__':
