@@ -31,10 +31,22 @@ class Concater:
         """Add an unknown word to the dictionary for this session"""
         print(word + " not found in dictionary. Enter pronunciation:\n")
         pronunciation = input()
-        if pronunciation == '': # TODO: more validation
+        if pronunciation == "":
             return False
+        if not self.is_valid(pronunciation):
+            print("Invalid pronunciation. Try again or press enter to quit.")
+            return self.add_to_dictionary(word)
         self.dictionary.update({word.upper():pronunciation})
         return True
+
+    def is_valid(self, pronunciation):
+        if pronunciation == "" or not pronunciation.isalnum():
+            return False
+        phones = pronunciation.split()
+        if all(map(self.is_sound, phones)):
+            return True
+        else:
+            return False
 
     def is_sound(self, phone):
         file = Path("recARPAs/" + phone + ".wav")
@@ -55,7 +67,7 @@ class Concater:
         if word not in self.dictionary:
             if not self.add_to_dictionary(word):
                 print("Missing dictionary entry. Could not finish.")
-                return sum(song)
+                return quarter_rest
         pronunciation = self.dictionary[word].split()
         print(pronunciation)
         index = 0
@@ -65,10 +77,10 @@ class Concater:
             if phones == '':
                 print("rest")
                 song.append(quarter_rest)
-                continue
+                break
             if not self.is_sound(phones):
                 print("not sound")
-                continue
+                break
             while index+1 < len(pronunciation) and \
                   self.is_sound(phones + pronunciation[index+1]):
                 print("adding")
@@ -90,7 +102,7 @@ def main():
         for word in inp.split():
             song = concater.word2song(word)
             sentence.append(song)
-        song.append(whole_rest)
+        sentence.append(whole_rest)
         sum(sentence).export("concated02 " + inp + ".mp3", format="mp3")
         inp = input()
 
