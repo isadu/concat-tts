@@ -40,6 +40,7 @@ class Concater:
         return True
 
     def is_valid(self, pronunciation):
+        """Check whether the provided string is a sequence of available sounds"""
         if pronunciation == "" or not pronunciation.isalnum():
             return False
         phones = pronunciation.split()
@@ -49,10 +50,12 @@ class Concater:
             return False
 
     def is_sound(self, phone):
+        """Check whether the provided string is an available sound"""
         file = Path("recARPAs/" + phone + ".wav")
         return file.is_file()            
 
     def is_vowel(self, phone):
+        """Check whether phone is a vowel - all vowels have numerical stress marking"""
         return not phone.isalpha()
             
     def get_sound(self, phone):
@@ -60,7 +63,7 @@ class Concater:
         filename = "recARPAs/" + phone + ".wav"
         return AudioSegment.from_file(filename, format="wav") # TODO handle failure
 
-    def word2song(self, word):
+    def word_to_speech(self, word):
         """Return new audio segment with sound version of each letter in given word"""
         song = []
         word = word.upper()
@@ -99,9 +102,9 @@ def main():
     while (inp != ''):
         sentence = []
         sentence.append(half_rest)
-        for word in inp.split():
-            song = concater.word2song(word)
-            sentence.append(song)
+        for token in inp.split():
+            word = concater.word_to_speech(token)
+            sentence.append(word)
         sentence.append(whole_rest)
         sum(sentence).export("concated02 " + inp + ".mp3", format="mp3")
         inp = input()
