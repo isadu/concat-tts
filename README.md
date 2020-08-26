@@ -1,5 +1,5 @@
 # concat-tts
-Simple concatenative text-to-speech in Python
+Simple phonologically-informed concatenative text-to-speech in Python. A personal project optimized for my own learning and exploration rather than contribution to the field, made public as a sample of what I am working on and interested in. Phonological processes from General American English. 
 
 [x] Stage 0: letters to sequence of 1-sec letter sounds
 [x] Stage 1: letters to sequence of properly trimmed letter sounds
@@ -15,7 +15,7 @@ Simple concatenative text-to-speech in Python
 	- [x] phase 1 - affricate for ts
 	- [x] phase 2 - s[ptkmnl], s[ptk]r, [ptkbdgfTHSH]r, spl, [pkbgf]l, [stk]w
 	- phase 3 - sf, dw, skw, sfr, codas
-	- issue - syllable boundaries
+	- issue - syllable boundaries!
 [ ] Stage 5: ...with phonetic detail
 	- [ ] technical prereq: explicit reference to phones
 	- [ ] technical prereq: sensitive to word boundary
@@ -31,7 +31,7 @@ Simple concatenative text-to-speech in Python
 	- devoiced obstruents
 [ ] Stage 7: context-aware recordings/segment recordings
 	- ideally hit side goal first
-	- (ata aba the a's are all different, or a[t] + ta)
+	- e.g. ata aba the a's are all different, or a[t] + ta
 [ ] Stage 8: questions and exclamations 
 	- manipulate pitch?
 
